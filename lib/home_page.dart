@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +39,9 @@ class _HomePageState extends State<HomePage> {
     videoUrls = {'Auto': widget.url, ...videoUrls};
     _controller = VideoPlayerController.networkUrl(
       Uri.parse(widget.url),
-    )..initialize().then((_) {
+    )
+    ..setSecretKey('sasasass')
+    ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
         _controller.play();
@@ -330,22 +331,20 @@ class _HomePageState extends State<HomePage> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 10),
-                                                  ...videoUrls.keys
-                                                      .map((e) => ListTile(
-                                                            //border radius for each tile by 30
-                                                            shape: const RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.all(
-                                                                Radius.circular(10),
-                                                              ),
-                                                            ),
-                                                            tileColor: selectedQuality == e ? Colors.purple.shade50 : null,
-                                                            title: Text(e),
-                                                            onTap: () {
-                                                              changeVideoQuality(videoUrls[e]!);
-                                                              Navigator.pop(context);
-                                                            },
-                                                          ))
-                                                      .toList(),
+                                                  ...videoUrls.keys.map((e) => ListTile(
+                                                        //border radius for each tile by 30
+                                                        shape: const RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.all(
+                                                            Radius.circular(10),
+                                                          ),
+                                                        ),
+                                                        tileColor: selectedQuality == e ? Colors.purple.shade50 : null,
+                                                        title: Text(e),
+                                                        onTap: () {
+                                                          changeVideoQuality(videoUrls[e]!);
+                                                          Navigator.pop(context);
+                                                        },
+                                                      )),
                                                 ],
                                               ),
                                             ),
@@ -439,6 +438,7 @@ class _HomePageState extends State<HomePage> {
     _controller.pause();
 
     _controller = VideoPlayerController.networkUrl(Uri.parse(videoPath))
+      ..setSecretKey('sassasa')
       ..initialize().then((_) async {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});

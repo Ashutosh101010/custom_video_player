@@ -1,6 +1,11 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:video_tesing/home_page.dart';
 
 void main() {
@@ -9,17 +14,19 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'GetX Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blueGrey,
         useMaterial3: true,
-        scaffoldBackgroundColor: Colors.purple[50],
+        scaffoldBackgroundColor: const Color.fromARGB(255, 29, 32, 33),
         primaryColor: Colors.purple.shade400,
       ),
       home: Home(),
@@ -28,7 +35,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
+  Home({super.key});
 
   // controller for textfield
   final TextEditingController _urlController = TextEditingController(text: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4');
@@ -77,6 +84,30 @@ class Home extends StatelessWidget {
                   );
                 },
                 child: const Text('Go to HomePage'),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                focusNode: FocusNode(),
+                onPressed: () async {
+                  var status = await Permission.videos.status;
+                  print(status.toString());
+                  if (!status.isGranted) {
+                    await Permission.videos.request();
+                  } else {
+                    //pick file
+                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: ['mp4', 'mkv', 'avi'],
+                    );
+                    print(result);
+                    if (result != null) {
+                      Get.to(() => HomePage(url: result.files.single.path!));
+                    } else {}
+                  }
+                },
+                child: const Text('Take File'),
               ),
             ),
           ],
