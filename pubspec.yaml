@@ -44,6 +44,20 @@ dependencies:
       url : 'https://github.com/Ashutosh101010/flutter_secure_player_platform_interface.git'
   file_picker: ^6.0.0
   permission_handler: ^11.0.1
+  crypto: ^3.0.3
+  path_provider: ^2.1.1
+  dio: ^5.3.3
+  encrypt: ^5.0.3
+  # flutter_ffplay: ^0.0.1
+
+
+dependency_overrides: 
+  file_picker: ^6.0.0
+  ffi : ^2.0.1
+  video_player_android :
+    git :
+      url : 'https://github.com/Ashutosh101010/flutter_video_player_android.git'
+      ref: '09f5752'
       
 dev_dependencies:
   flutter_test:

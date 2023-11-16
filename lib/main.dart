@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:video_tesing/encrypter.dart';
 import 'package:video_tesing/home_page.dart';
 
 void main() {
@@ -24,10 +25,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.blueGrey,
+        colorScheme: const ColorScheme.dark(),
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color.fromARGB(255, 29, 32, 33),
-        primaryColor: Colors.purple.shade400,
       ),
       home: Home(),
     );
@@ -38,7 +37,7 @@ class Home extends StatelessWidget {
   Home({super.key});
 
   // controller for textfield
-  final TextEditingController _urlController = TextEditingController(text: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4');
+  final TextEditingController _urlController = TextEditingController(text: 'https://s3.ap-southeast-1.wasabisys.com/classio/krishnapal/OutVideo.mp4');
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +107,16 @@ class Home extends StatelessWidget {
                   }
                 },
                 child: const Text('Take File'),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                focusNode: FocusNode(),
+                onPressed: () async {
+                  Get.to(() => VideoEncypt(url: _urlController.text));
+                },
+                child: const Text('Go To Video Encryption'),
               ),
             ),
           ],

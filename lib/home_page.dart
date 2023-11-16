@@ -40,8 +40,8 @@ class _HomePageState extends State<HomePage> {
     _controller = VideoPlayerController.networkUrl(
       Uri.parse(widget.url),
     )
-    ..setSecretKey('sasasass')
-    ..initialize().then((_) {
+      ..setSecretKey('hDhHtnT17ObcCSioE5r075gKOBTW3T5kVhPXxXaNCZg=')
+      ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
         _controller.play();
