@@ -1,13 +1,17 @@
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_tesing/encrypter.dart';
+import 'package:video_tesing/hls_video.dart';
 import 'package:video_tesing/home_page.dart';
 
 void main() {
+   WidgetsFlutterBinding.ensureInitialized();
+  // Necessary initialization for package:media_kit.
+  MediaKit.ensureInitialized();
   runApp(const MyApp());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 }
@@ -75,10 +79,10 @@ class Home extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage(url: _urlController.text)),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => HomePage(url: _urlController.text)),
+                  // );
                 },
                 child: const Text('Go to HomePage'),
               ),
@@ -100,7 +104,7 @@ class Home extends StatelessWidget {
                     );
                     print(result);
                     if (result != null) {
-                      Get.to(() => HomePage(url: result.files.single.path!));
+                      // Get.to(() => HomePage(url: result.files.single.path!));
                     } else {}
                   }
                 },
@@ -115,6 +119,16 @@ class Home extends StatelessWidget {
                   Get.to(() => VideoEncypt(url: _urlController.text));
                 },
                 child: const Text('Go To Video Encryption'),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                focusNode: FocusNode(),
+                onPressed: () async {
+                  Get.to(() => const HLSVideo());
+                },
+                child: const Text('HLS Video'),
               ),
             ),
           ],
